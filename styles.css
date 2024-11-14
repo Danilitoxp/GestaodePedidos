@@ -66,6 +66,7 @@ button.delete {
 }
 
 .excluir {
+  cursor: pointer;
   border: none;
   padding: 10px;
   border-radius: 5px;
