@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestão de Pedidos</title>
     <link rel="stylesheet" href="styles.css">
-    <script type="text/javascript" src="./index.js" defer=""></script>
-    <link rel="stylesheet" href="./index.css">
-    <!-- Adicionando Google Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   </head>
   <body>
@@ -27,41 +24,39 @@
 
       <footer>
         <!-- Seção de Filtro -->
-<div id="filtro">
-  <input type="date" id="filtroData">
-  <input type="text" id="filtroNumero" placeholder="Número do Pedido">
-  <button id="aplicarFiltro">Aplicar Filtro</button>
-</div>
+        <div id="filtro">
+          <input type="date" id="filtroData">
+          <input type="text" id="filtroNumero" placeholder="Número do Pedido">
+          <button id="aplicarFiltro">Aplicar Filtro</button>
+        </div>
 
-<!-- Seção de Pedidos Finalizados -->
-<section id="pedidosFinalizados">
-  <h2>Pedidos Finalizados</h2>
-  <ul id="listaPedidosFinalizados">
-    <!-- Os itens da lista de pedidos finalizados serão dinamicamente adicionados aqui -->
-  </ul>
-</section>
-
+        <!-- Seção de Pedidos Finalizados -->
+        <section id="pedidosFinalizados">
+          <h2>Pedidos Finalizados</h2>
+          <ul id="listaPedidosFinalizados">
+            <!-- Os itens da lista de pedidos finalizados serão dinamicamente adicionados aqui -->
+          </ul>
+        </section>
       </footer>
 
       <!-- Modal de Confirmação -->
-<div class="modal" id="modalConfirmacao">
-  <div class="modal-content">
-    <div class="icon">
-      <span class="material-icons">check_circle</span> <!-- Ícone de confirmação -->
-    </div>
-    <h2>Confirmação</h2>
-    <p>Tem certeza que deseja realizar esta ação?</p>
-    <button class="confirm" id="confirmarBtn">Sim</button>
-    <button class="cancel" id="cancelarBtn">Não</button>
-  </div>
-</div>
-
-      
+      <div class="modal" id="modalConfirmacao">
+        <div class="modal-content">
+          <div class="icon">
+            <span class="material-icons">check_circle</span> <!-- Ícone de confirmação -->
+          </div>
+          <h2>Confirmação</h2>
+          <p>Tem certeza que deseja realizar esta ação?</p>
+          <button class="confirm" id="confirmarBtn">Sim</button>
+          <button class="cancel" id="cancelarBtn">Não</button>
+        </div>
+      </div>
 
       <div id="notificacaoCriacao" class="notificacao">Pedido Criado com Sucesso!</div>
       <div id="notificacaoFinalizacao" class="notificacao">Pedido Finalizado com Sucesso!</div>
 
-      <script src="script.js"></script>
+      <!-- A única inclusão do script como módulo -->
+      <script type="module" src="index.js"></script>
     </main>
   </body>
 </html>
