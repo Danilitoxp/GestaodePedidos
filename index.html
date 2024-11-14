@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Pedidos</title>
+    <link rel="stylesheet" href="styles.css">
+    <script type="text/javascript" src="./index.js" defer=""></script>
+    <link rel="stylesheet" href="./index.css">
+  </head>
+
+  <body>
+    <header>
+      <h1>Gestão de Pedidos</h1>
+      <form id="pedidoForm">
+        <input type="text" id="pedidoInput" placeholder="Número do Pedido" required="">
+        <button type="submit">Cadastrar Pedido</button>
+      </form>
+    </header>
+
+    <main>
+      <section id="pedidosAtivos">
+        <h2>Pedidos para Analisar</h2>
+        <ul id="listaPedidos"></ul>
+      </section>
+
+      <footer>
+        <div id="filtro">
+          <h3>Filtrar Pedidos</h3>
+          <input type="date" id="filtroData">
+          <input type="text" id="filtroNumero" placeholder="Número do Pedido">
+          <button id="aplicarFiltro">Aplicar Filtro</button>
+        </div>
+
+        <section id="pedidosFinalizados">
+          <h2>Pedidos Finalizados</h2>
+          <ul id="listaPedidosFinalizados"></ul>
+        </section>
+      </footer>
+
+      <script src="script.js"></script>
+
+
+    </main>
+  </body>
+
+</html>
