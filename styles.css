@@ -53,6 +53,32 @@ header:hover {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+/* Botão Excluir para pedidos finalizados */
+button.delete {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2em;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.excluir {
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+  background-color: #e53935;
+}
+
+button.delete span.material-icons {
+  vertical-align: middle;
+  font-size: 18px;
+}
+
+
 #pedidoForm input:focus {
   outline: none;
   border-color: #4CAF50;
