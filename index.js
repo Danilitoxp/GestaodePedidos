@@ -7,63 +7,111 @@ document.addEventListener("DOMContentLoaded", function() {
   const filtroNumero = document.getElementById("filtroNumero");
   const aplicarFiltro = document.getElementById("aplicarFiltro");
 
-  let pedidosFinalizados = [];
+  const modalConfirmacao = document.getElementById("modalConfirmacao");
+  const confirmarBtn = document.getElementById("confirmarBtn");
+  const cancelarBtn = document.getElementById("cancelarBtn");
 
-  pedidoForm.addEventListener("submit", function(event) {
-    event.preventDefault();
-    const numeroPedido = pedidoInput.value.trim();
-    if (numeroPedido) {
-      const dataHora = new Date();
-      adicionarPedido(numeroPedido, dataHora);
-      pedidoInput.value = "";
-    }
+  const notificacaoCriacao = document.getElementById("notificacaoCriacao");
+  const notificacaoFinalizacao = document.getElementById("notificacaoFinalizacao");
+
+  let pedidos = [];
+
+  pedidoForm.addEventListener("submit", function(e) {
+    e.preventDefault();
+    const pedido = {
+      numero: pedidoInput.value,
+      data: new Date().toLocaleString(),
+      status: "ativo"
+    };
+    pedidos.push(pedido);
+    renderizarPedidos();
+    pedidoInput.value = "";
+
+    // Exibir notificação de criação
+    notificacaoCriacao.style.display = "block";
+    setTimeout(() => {
+      notificacaoCriacao.style.opacity = 1;
+    }, 0);
+    setTimeout(() => {
+      notificacaoCriacao.style.opacity = 0;
+      setTimeout(() => {
+        notificacaoCriacao.style.display = "none";
+      }, 500);
+    }, 3000);
   });
 
   aplicarFiltro.addEventListener("click", function() {
-    const dataFiltro = filtroData.value;
-    const numeroFiltro = filtroNumero.value.trim();
-    
-    listaPedidosFinalizados.innerHTML = "";
+    const filtroDataValue = filtroData.value;
+    const filtroNumeroValue = filtroNumero.value.toLowerCase();
 
-    const pedidosFiltrados = pedidosFinalizados.filter(pedido => {
-      const { numero, dataHora } = pedido;
-      const dataPedido = dataHora.toISOString().split("T")[0];
-      
-      return (
-        (!dataFiltro || dataPedido === dataFiltro) &&
-        (!numeroFiltro || numero.includes(numeroFiltro))
-      );
+    // Filtrar os pedidos com base na data e no número
+    const pedidosFiltrados = pedidos.filter(pedido => {
+      const dataCorresponde = filtroDataValue ? pedido.data.includes(filtroDataValue) : true;
+      const numeroCorresponde = filtroNumeroValue ? pedido.numero.toLowerCase().includes(filtroNumeroValue) : true;
+      return dataCorresponde && numeroCorresponde;
     });
 
-    pedidosFiltrados.forEach(({ numero, dataHora }) => {
-      const li = criarElementoPedido(numero, dataHora);
-      listaPedidosFinalizados.appendChild(li);
-    });
+    renderizarPedidos(pedidosFiltrados); // Passar os pedidos filtrados para renderização
   });
 
-  function adicionarPedido(numero, dataHora) {
-    const li = criarElementoPedido(numero, dataHora);
+  function renderizarPedidos(pedidosParaRenderizar = pedidos) {
+    // Limpar as listas
+    listaPedidos.innerHTML = '';
+    listaPedidosFinalizados.innerHTML = '';
 
-    const checkButton = document.createElement("button");
-    checkButton.textContent = "Finalizar";
-    checkButton.classList.add("check");
-    checkButton.addEventListener("click", function() {
+    // Renderizar pedidos ativos
+    pedidosParaRenderizar.filter(p => p.status === "ativo").forEach(pedido => {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <span class="numero"> ${pedido.numero}</span>
+        <span class="data-hora">${pedido.data}</span>
+        <button class="check">Finalizar</button>
+      `;
+      li.querySelector(".check").addEventListener("click", function() {
+        // Exibir o modal de confirmação para finalizar o pedido
+        modalConfirmacao.style.display = "flex";
+        // Salvar o pedido selecionado para finalização
+        modalConfirmacao.pedido = pedido;
+      });
+      listaPedidos.appendChild(li);
+    });
+
+    // Renderizar pedidos finalizados
+    pedidosParaRenderizar.filter(p => p.status === "finalizado").forEach(pedido => {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <span class="numero">Pedido n° ${pedido.numero}</span>
+        <span class="data-hora">${pedido.data}</span>
+      `;
       listaPedidosFinalizados.appendChild(li);
-      pedidosFinalizados.push({ numero, dataHora });
-      checkButton.remove();
     });
-
-    li.appendChild(checkButton);
-    listaPedidos.appendChild(li);
   }
 
-  function criarElementoPedido(numero, dataHora) {
-    const li = document.createElement("li");
-    const dataHoraFormatada = dataHora.toLocaleString("pt-BR", {
-      day: "2-digit", month: "2-digit", year: "numeric",
-      hour: "2-digit", minute: "2-digit"
-    });
-    li.innerHTML = `<span class="numero">Pedido #${numero}</span><span class="data-hora">${dataHoraFormatada}</span>`;
-    return li;
-  }
+  confirmarBtn.addEventListener("click", function() {
+    // Mover o pedido para a lista de finalizados
+    if (modalConfirmacao.pedido) {
+      modalConfirmacao.pedido.status = "finalizado";
+      renderizarPedidos();
+
+      // Exibir notificação de finalização
+      notificacaoFinalizacao.style.display = "block";
+      setTimeout(() => {
+        notificacaoFinalizacao.style.opacity = 1;
+      }, 0);
+      setTimeout(() => {
+        notificacaoFinalizacao.style.opacity = 0;
+        setTimeout(() => {
+          notificacaoFinalizacao.style.display = "none";
+        }, 500);
+      }, 3000);
+    }
+
+    // Fechar o modal
+    modalConfirmacao.style.display = "none";
+  });
+
+  cancelarBtn.addEventListener("click", function() {
+    // Fechar o modal sem fazer nada
+    modalConfirmacao.style.display = "none";
+  });
 });

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,14 +7,15 @@
     <link rel="stylesheet" href="styles.css">
     <script type="text/javascript" src="./index.js" defer=""></script>
     <link rel="stylesheet" href="./index.css">
+    <!-- Adicionando Google Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   </head>
-
   <body>
     <header>
       <h1>Gestão de Pedidos</h1>
       <form id="pedidoForm">
         <input type="text" id="pedidoInput" placeholder="Número do Pedido" required="">
-        <button type="submit">Cadastrar Pedido</button>
+        <button type="submit"><span class="material-icons">add</span> Cadastrar Pedido</button>
       </form>
     </header>
 
@@ -26,23 +26,42 @@
       </section>
 
       <footer>
-        <div id="filtro">
-          <h3>Filtrar Pedidos</h3>
-          <input type="date" id="filtroData">
-          <input type="text" id="filtroNumero" placeholder="Número do Pedido">
-          <button id="aplicarFiltro">Aplicar Filtro</button>
-        </div>
+        <!-- Seção de Filtro -->
+<div id="filtro">
+  <input type="date" id="filtroData">
+  <input type="text" id="filtroNumero" placeholder="Número do Pedido">
+  <button id="aplicarFiltro">Aplicar Filtro</button>
+</div>
 
-        <section id="pedidosFinalizados">
-          <h2>Pedidos Finalizados</h2>
-          <ul id="listaPedidosFinalizados"></ul>
-        </section>
+<!-- Seção de Pedidos Finalizados -->
+<section id="pedidosFinalizados">
+  <h2>Pedidos Finalizados</h2>
+  <ul id="listaPedidosFinalizados">
+    <!-- Os itens da lista de pedidos finalizados serão dinamicamente adicionados aqui -->
+  </ul>
+</section>
+
       </footer>
 
+      <!-- Modal de Confirmação -->
+<div class="modal" id="modalConfirmacao">
+  <div class="modal-content">
+    <div class="icon">
+      <span class="material-icons">check_circle</span> <!-- Ícone de confirmação -->
+    </div>
+    <h2>Confirmação</h2>
+    <p>Tem certeza que deseja realizar esta ação?</p>
+    <button class="confirm" id="confirmarBtn">Sim</button>
+    <button class="cancel" id="cancelarBtn">Não</button>
+  </div>
+</div>
+
+      
+
+      <div id="notificacaoCriacao" class="notificacao">Pedido Criado com Sucesso!</div>
+      <div id="notificacaoFinalizacao" class="notificacao">Pedido Finalizado com Sucesso!</div>
+
       <script src="script.js"></script>
-
-
     </main>
   </body>
-
 </html>
