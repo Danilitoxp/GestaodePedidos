@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function() {
     e.preventDefault();
     const pedido = {
       numero: pedidoInput.value,
-      data: new Date().toLocaleString(),
+      data: new Date().toISOString(), // Armazenar a data no formato ISO (YYYY-MM-DDTHH:mm:ss)
       status: "ativo"
     };
     pedidos.push(pedido);
@@ -41,14 +41,21 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 
   aplicarFiltro.addEventListener("click", function() {
-    const filtroDataValue = filtroData.value;
+    const filtroDataValue = filtroData.value;  // Data no formato YYYY-MM-DD
     const filtroNumeroValue = filtroNumero.value.toLowerCase();
 
-    // Filtrar os pedidos com base na data e no número
+    // Filtrar apenas os pedidos finalizados com base na data e no número
     const pedidosFiltrados = pedidos.filter(pedido => {
-      const dataCorresponde = filtroDataValue ? pedido.data.includes(filtroDataValue) : true;
+      if (pedido.status !== "finalizado") return false; // Filtra apenas pedidos finalizados
+
+      // Extrair apenas a parte da data (YYYY-MM-DD) para comparação
+      const pedidoData = pedido.data.split('T')[0]; // Pegar apenas a data (YYYY-MM-DD) da string ISO
+
+      // Comparação para data e número
+      const dataCorresponde = filtroDataValue ? pedidoData === filtroDataValue : true;
       const numeroCorresponde = filtroNumeroValue ? pedido.numero.toLowerCase().includes(filtroNumeroValue) : true;
-      return dataCorresponde && numeroCorresponde;
+      
+      return dataCorresponde && numeroCorresponde; // Ambos devem ser verdadeiros
     });
 
     renderizarPedidos(pedidosFiltrados); // Passar os pedidos filtrados para renderização
@@ -60,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function() {
     listaPedidosFinalizados.innerHTML = '';
 
     // Renderizar pedidos ativos
-    pedidosParaRenderizar.filter(p => p.status === "ativo").forEach(pedido => {
+    pedidos.filter(p => p.status === "ativo").forEach(pedido => {
       const li = document.createElement("li");
       li.innerHTML = `
         <span class="numero"> ${pedido.numero}</span>
